@@ -33,7 +33,7 @@ rs = 42
 def load_data(filepath):
     return pd.read_csv(filepath)
 
-train = load_data('C:\\MBKM\\project\\train.csv')
+train = pd.read_csv('https://media.githubusercontent.com/media/Firdatulayuni/Prediksi-Emisi/main/train.csv')
 
 # Membuat salinan data asli untuk preprocessing
 train_processed = train.copy()
