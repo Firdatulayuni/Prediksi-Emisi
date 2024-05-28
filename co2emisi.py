@@ -79,7 +79,6 @@ with eda:
 
     train_eda = train.copy()
 
-    # Tampilkan peta menggunakan Streamlit
     # Mengelompokkan data pelatihan berdasarkan 'latitude' dan 'longitude' serta menghitung jumlah 'emission' untuk setiap lokasi
     grouped = train_eda.groupby(['latitude', 'longitude'])['emission'].sum().reset_index()
 
