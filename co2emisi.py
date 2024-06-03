@@ -97,8 +97,7 @@ with deskripsi:
         Titik yang dipakai dari 0 ke 90 derajat ke arah kutub utara, dan 0 ke -90 derajat ke kutub selatan
     <br><b>2. Longitude</b><br>
         Longitude adalah garis lintang . Angka dari sudut bundar bumi horizontal. Titik diawali dari 0 ke 180 derajat, dan 0 ke-180 ke arah sebaliknya.
-    <br><b>3. Year</b><br>
-        
+    <br><b>3. Year</b>
     <br><b>4. Syclic Feature (Week Sin dan Week Cos)</b><br>
         Sinus dan cosinus, untuk mencerminkan siklus, misalnya tanggal 1 Januari mendekati tanggal 31 Desember.
     <br><b>6. Holidays</b><br>
@@ -140,28 +139,31 @@ with eda:
     # MAPS
     # Mengelompokkan data pelatihan berdasarkan 'latitude' dan 'longitude' serta menghitung jumlah 'emission' untuk setiap lokasi
     grouped = train_eda.groupby(['latitude', 'longitude'])['emission'].sum().reset_index()
-
+    
     # Membuat peta dengan skala warna linier yang memetakan nilai emisi ke warna
-    colormap = cm.LinearColormap(['green', 'red'], vmin=0, vmax=75000)  # emisi di atas 75.000 akan diberi warna hitam
-
+    colormap = LinearColormap(['green', 'red'], vmin=0, vmax=75000)  # emisi di atas 75.000 akan diberi warna hitam
+    
     # Membuat peta yang berpusat pada rata-rata 'latitude' dan 'longitude' dari titik-titik data
     m = folium.Map(location=[grouped['latitude'].mean(), grouped['longitude'].mean()])
-
+    
     # Menambahkan tanda lingkaran pada peta untuk setiap titik dalam dataframe 'grouped'
     for _, row in grouped.iterrows():
         rows_emission = row['emission']
         color = 'blue' if rows_emission == 0 else colormap(rows_emission) if rows_emission < 10**5 else 'black'
         folium.Circle(
             location=[row['latitude'], row['longitude']],
-            radius=np.sqrt(row['emission'])*15,
+            radius=np.sqrt(row['emission']) * 15,
             color=color,
             fill=True,
             fill_color=color
         ).add_to(m)
-
+    
     # Menyesuaikan peta dengan batas tanda
     m.fit_bounds(m.get_bounds())
-
+    
+    # Menambahkan fitur untuk mendapatkan latitude dan longitude saat diklik
+    m.add_child(folium.LatLngPopup())
+    
     # Menambahkan legenda
     legend_html = '''
     <div style="position: fixed; 
@@ -176,11 +178,43 @@ with eda:
     </div>
     '''
     m.get_root().html.add_child(folium.Element(legend_html))
-
+    
     # Menampilkan peta dengan Streamlit
     st.markdown("<h3 style='text-align: center;'>Peta Emisi</h3>", unsafe_allow_html=True)
     st_folium(m, width=700, height=500)
-
+    
+    # plot train per week of year
+    # Konversi kolom 'year' dan 'week_no' menjadi kolom 'date'
+    train_plot = train.copy(deep=True)
+    train_plot['date'] = pd.to_datetime(train_plot['year'].astype(str) + '-' + train_plot['week_no'].astype(str) + '-1', format='%Y-%W-%w')
+    
+    # Slider untuk memilih rentang tahun dengan key unik
+    start_year, end_year = st.sidebar.slider('Select Year Range for Week of Year', 2019, 2021, (2019, 2021), key='year_range_slider')
+    
+    # Filter berdasarkan tahun yang dipilih
+    train_plot = train_plot[(train_plot['year'] >= start_year) & (train_plot['year'] <= end_year)]
+    
+    # Menyusun data untuk plotting
+    avg_week = train_plot.groupby(['year', 'week_no'])['emission'].mean().reset_index()
+    
+    # Membuat line plot dengan warna berdasarkan tahun
+    fig, ax = plt.subplots(figsize=(18, 10))
+    palette = sns.color_palette('husl', n_colors=len(avg_week['year'].unique()))
+    
+    for i, year in enumerate(sorted(avg_week['year'].unique())):
+        yearly_data = avg_week[avg_week['year'] == year]
+        sns.lineplot(data=yearly_data, x='week_no', y='emission', label=str(year), color=palette[i], marker='o', ax=ax)
+    
+    # Menyesuaikan tampilan plot
+    ax.set_title('Average emissions per week of year')
+    ax.set_xlabel('Week of the year')
+    ax.set_ylabel('Average emissions')
+    ax.legend(title='Year', bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.grid(True)
+    
+    plt.tight_layout()
+    st.markdown("<h3 style='text-align: center;'>Plot Emisi Per Minggu Dalam 3 Tahun</h3>", unsafe_allow_html=True)
+    st.pyplot(fig)
     # plot train per week of year
     # Konversi kolom 'year' dan 'week_no' menjadi kolom 'date'
     train_plot = train.copy(deep=True)
