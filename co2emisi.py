@@ -184,11 +184,12 @@ with eda:
     
     # plot train per week of year
     # Konversi kolom 'year' dan 'week_no' menjadi kolom 'date'
+    st.sidebar.markdown("<h4 style='text-align: center;'>Emisi CO2 Per Week Of Year</h4>", unsafe_allow_html=True)
     train_plot = train.copy(deep=True)
     train_plot['date'] = pd.to_datetime(train_plot['year'].astype(str) + '-' + train_plot['week_no'].astype(str) + '-1', format='%Y-%W-%w')
     
     # Slider untuk memilih rentang tahun dengan key unik
-    start_year, end_year = st.sidebar.slider('Select Year Range for Week of Year', 2019, 2021, (2019, 2021), key='year_range_slider_eda')
+    start_year, end_year = st.sidebar.slider('Pilih Rentang Tahun', 2019, 2021, (2019, 2021), key='year_range_slider_eda')
     
     # Filter berdasarkan tahun yang dipilih
     train_plot = train_plot[(train_plot['year'] >= start_year) & (train_plot['year'] <= end_year)]
