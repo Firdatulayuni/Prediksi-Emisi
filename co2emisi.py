@@ -56,21 +56,60 @@ with deskripsi:
     Dataset CO2 Emission In Rwanda merupakan data emisi open source yang berasal dari pengamatan satelit Sentinel-5P untuk memprediksi emisi karbon. 
     Sekitar 497 lokasi unik dipilih dari berbagai wilayah di Rwanda, dengan distribusi di sekitar lahan pertanian, kota, dan pembangkit listrik. Tujuh 
     fitur utama diekstraksi setiap minggu dari Sentinel-5P dari Januari 2019 hingga November 2022. Setiap fitur (Sulfur Dioksida, Karbon Monoksida, dll) 
-    mengandung sub fitur seperti column_number_density yang merupakan kerapatan kolom vertikal di permukaan tanah, yang dihitung dengan menggunakan teknik DOAS.
-    Fitur-fitur yang kami gunakan untuk prediksi yaitu:
-    1. Latitude
-    2. Longitude
-    3. Year
-    4. Week Sin
-    5. Week Cos
-    6. Holidays
-    7. Rot_15_x
-    8. Rot_15_y
-    9. Rot_30_x
-    10. Rot_30_y
-    11. Distance_to_max_emmission
+    mengandung sub fitur seperti column_number_density yang merupakan kerapatan kolom vertikal di permukaan tanah, yang dihitung dengan menggunakan teknik Spektroskopi Serapan Optik Diferensial (DOAS).
+    Berikut merupakan penjelasan dari fitur-fitur utama yang ada pada dataset. 
+    <br><b>1. Sulfur Dioksida (SO2)</b><br>
+        SO2 memasuki atmosfer bumi melalui proses alami dan antropogenik. Ini berperan dalam bidang kimia pada skala lokal dan global, dampaknya berkisar dari
+        polusi jangka pendek hingga dampak terhadap iklim. anya sekitar 30% emisi SO2 yang berasal dari sumber alami; mayoritas berasal dari antropogenik. 
+        Emisi SO 2 berdampak buruk terhadap kesehatan manusia dan kualitas udara. SO 2 berdampak pada iklim melalui gaya radiasi, melalui pembentukan aerosol sulfat. 
+        Emisi SO 2 vulkanik juga dapat menimbulkan ancaman bagi penerbangan, bersamaan dengan abu vulkanik.
+    <br><b>2. Karbon Monoksida (CO)</b><br>
+        Karbon monoksida (CO) adalah gas jejak atmosfer yang penting untuk memahami kimia troposfer. Di wilayah perkotaan tertentu, ini merupakan polutan atmosfer yang utama. 
+        Sumber utama CO adalah pembakaran bahan bakar fosil, pembakaran biomassa, dan oksidasi metana dan hidrokarbon lainnya di atmosfer. Meskipun pembakaran bahan bakar fosil 
+        merupakan sumber utama CO di garis lintang tengah utara, oksidasi isoprena dan pembakaran biomassa memainkan peranan penting di daerah tropis. 
+        TROPOMI pada satelit Sentinel 5 Precursor (S5P) mengamati CO kelimpahan global memanfaatkan pengukuran pancaran bumi pada langit cerah dan langit mendung dalam rentang 
+        spektral 2,3 m dari bagian inframerah gelombang pendek (SWIR) dari spektrum matahari. 
+    <br><b>3. Nitrogen Dioksida (NO2)</b><br>
+        Nitrogen Doksida (NO 2 dan NO) adalah gas penting di atmosfer bumi, yang terdapat di troposfer dan stratosfer. Mereka memasuki atmosfer sebagai akibat dari aktivitas antropogenik 
+        (terutama pembakaran bahan bakar fosil dan pembakaran biomassa) dan proses alami (kebakaran hutan, petir, dan proses mikrobiologis di dalam tanah). Di sini, NO 2 digunakan untuk 
+        mewakili konsentrasi kolektif nitrogen oksida karena pada siang hari, yaitu dengan adanya sinar matahari, siklus fotokimia yang melibatkan ozon (O 3 ) mengubah NO menjadi NO 2 
+        dan sebaliknya dalam skala waktu menit.
+    <br><b>4. Formaldehida (HCHO)</b><br>
+        Formaldehida adalah gas perantara di hampir semua rantai oksidasi senyawa organik volatil non-metana (NMVOC), yang pada akhirnya menghasilkan CO 2 . Senyawa Organik Volatil Non-Metana (NMVOCs), 
+        bersama dengan NOx, CO dan CH4, merupakan salah satu prekursor terpenting O3 troposfer . Sumber utama HCHO di atmosfer terpencil adalah oksidasi CH4 . Di seluruh benua, oksidasi NMVOC 
+        yang lebih tinggi yang dipancarkan dari tumbuh-tumbuhan, kebakaran, lalu lintas, dan sumber-sumber industri menghasilkan peningkatan tingkat HCHO yang penting dan terlokalisasi. 
+        Variasi distribusi formaldehida secara musiman dan antar-tahunan pada dasarnya tidak hanya berkaitan dengan perubahan suhu dan kejadian kebakaran, tetapi juga dengan perubahan aktivitas antropogenik.
+    <br><b>5. UV Aerosol Index (UVAI)</b><br>
+        Disebut juga dengan Absorbing Aerosol Index (AAI), AAI didasarkan pada perubahan hamburan Rayleigh yang bergantung pada panjang gelombang dalam rentang spektral UV untuk sepasang panjang gelombang. 
+        Perbedaan antara hasil reflektansi yang diamati dan yang dimodelkan pada AAI. Jika AAI positif, hal ini menunjukkan adanya aerosol penyerap UV seperti debu dan asap. Hal ini berguna untuk melacak 
+        evolusi gumpalan aerosol episodik dari semburan debu, abu vulkanik, dan pembakaran biomassa.
+    <br><b>6. Ozon (O3)</b><br>
+        Di stratosfer, lapisan ozon melindungi biosfer dari radiasi ultraviolet matahari yang berbahaya. Di troposfer, ia bertindak sebagai bahan pembersih yang efisien, namun pada konsentrasi tinggi ia juga berbahaya 
+        bagi kesehatan manusia, hewan, dan tumbuh-tumbuhan. Ozon juga merupakan penyumbang gas rumah kaca yang penting terhadap perubahan iklim yang sedang berlangsung. Sejak penemuan lubang ozon Antartika pada tahun 1980an
+        dan Protokol Montreal yang mengatur produksi zat perusak ozon yang mengandung klorin, ozon telah dipantau secara rutin dari dalam tanah dan dari luar angkasa.
+    <br><b>7. Awan (Cloud)</b><br>
+        Pengambilan properti cloud TROPOMI/S5P didasarkan pada algoritma OCRA dan ROCINN yang saat ini digunakan dalam operasional produk GOME dan GOME-2. OCRA mengambil fraksi awan menggunakan pengukuran di wilayah spektral UV/VIS dan ROCINN 
+        mengambil tinggi awan (tekanan) dan ketebalan optik (albedo) menggunakan pengukuran di dalam dan sekitar pita oksigen A pada 760 nm. Algoritme versi 3.0 digunakan, yang didasarkan pada perlakuan yang lebih realistis terhadap awan sebagai 
+        lapisan partikel penghambur cahaya yang seragam secara optik. Selain itu, parameter awan juga disediakan untuk model awan yang mengasumsikan awan tersebut merupakan batas refleksi Lambertian.
+    Terdapat beberapa fitur tambahan pada data, berikut merupakan fitur yang kami gunakan besertea fitur tambahan untuk prediksi yaitu:
+    <br><b>1. Latitude</b><br>
+        Latitude adalah garis yang horizontal / mendatar. Titik 0 adalah sudut ekuator, tanda + menunjukan arah ke atas menuju kutub utara, sedangkan tanda minus di koordinat Latitude menuju ke kutub selatan.
+        Titik yang dipakai dari 0 ke 90 derajat ke arah kutub utara, dan 0 ke -90 derajat ke kutub selatan
+    <br><b>2. Longitude</b><br>
+        Longitude adalah garis lintang . Angka dari sudut bundar bumi horizontal. Titik diawali dari 0 ke 180 derajat, dan 0 ke-180 ke arah sebaliknya.
+    <br><b>3. Year</b><br>
+        
+    <br><b>4. Syclic Feature (Week Sin dan Week Cos)</b><br>
+        Sinus dan cosinus, untuk mencerminkan siklus, misalnya tanggal 1 Januari mendekati tanggal 31 Desember.
+    <br><b>6. Holidays</b><br>
+        Emisi sangat bergantung pada tren musiman/liburan, oleh karena itu kami menambahkan fitur hokidays
+    <br><b>7. Rotate Location (Rot_15_x, Rot_15_y, Rot_30_x, Rot_30_y)</b><br>
+        Rotasi lokasi mengubah perspektif data dan menemukan pola atau hubungan baru yang tidak terlihat dalam data asli.
+    <br><b>8. Distance_to_max_emmission</b><br>
+        Menghitung jarak dari setiap lokasi ke lokasi dengan emisi tertinggi menggunakan fungsi haversine,
+        yang merupakan cara untuk menghitung jarak antara dua titik di permukaan bumi
     """
-    st.write(desc)
+    st.write(desc, unsafe_allow_html=True)
 
 # Tab EDA
 with eda:
@@ -79,6 +118,26 @@ with eda:
 
     train_eda = train.copy()
 
+    # Menghitung missing values dan mengkonversinya ke dalam persentase
+    missValTrain = train_eda.isnull().sum()
+    missValTrain = missValTrain[missValTrain > 0].sort_values(ascending=False).head(20)
+    missValTrain = missValTrain / len(train) * 100
+
+    # Membuat visualisasi
+    fig, ax = plt.subplots(figsize=(12, 8))
+    sns.barplot(x=missValTrain.values, y=missValTrain.index, palette='viridis', ax=ax)
+
+    # Menambahkan label dan judul
+    ax.set_xlabel('Persentase Missing Value (%)')
+    ax.set_ylabel('Kolom')
+    ax.set_title('Persentase Missing Value')
+
+    # Menampilkan visualisasi di Streamlit
+    st.markdown("<h3 style='text-align: center;'>Presentase Missing Value</h3>", unsafe_allow_html=True)
+    st.pyplot(fig)
+
+
+    # MAPS
     # Mengelompokkan data pelatihan berdasarkan 'latitude' dan 'longitude' serta menghitung jumlah 'emission' untuk setiap lokasi
     grouped = train_eda.groupby(['latitude', 'longitude'])['emission'].sum().reset_index()
 
