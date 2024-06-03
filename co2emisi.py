@@ -135,7 +135,6 @@ with eda:
     st.markdown("<h3 style='text-align: center;'>Presentase Missing Value</h3>", unsafe_allow_html=True)
     st.pyplot(fig)
 
-
     # MAPS
     # Mengelompokkan data pelatihan berdasarkan 'latitude' dan 'longitude' serta menghitung jumlah 'emission' untuk setiap lokasi
     grouped = train_eda.groupby(['latitude', 'longitude'])['emission'].sum().reset_index()
@@ -189,7 +188,7 @@ with eda:
     train_plot['date'] = pd.to_datetime(train_plot['year'].astype(str) + '-' + train_plot['week_no'].astype(str) + '-1', format='%Y-%W-%w')
     
     # Slider untuk memilih rentang tahun dengan key unik
-    start_year, end_year = st.sidebar.slider('Select Year Range for Week of Year', 2019, 2021, (2019, 2021), key='year_range_slider')
+    start_year, end_year = st.sidebar.slider('Select Year Range for Week of Year', 2019, 2021, (2019, 2021), key='year_range_slider_eda')
     
     # Filter berdasarkan tahun yang dipilih
     train_plot = train_plot[(train_plot['year'] >= start_year) & (train_plot['year'] <= end_year)]
@@ -215,39 +214,6 @@ with eda:
     plt.tight_layout()
     st.markdown("<h3 style='text-align: center;'>Plot Emisi Per Minggu Dalam 3 Tahun</h3>", unsafe_allow_html=True)
     st.pyplot(fig)
-    # plot train per week of year
-    # Konversi kolom 'year' dan 'week_no' menjadi kolom 'date'
-    train_plot = train.copy(deep=True)
-    train_plot['date'] = pd.to_datetime(train_plot['year'].astype(str) + '-' + train_plot['week_no'].astype(str) + '-1', format='%Y-%W-%w')
-
-    # Slider untuk memilih rentang tahun dengan key unik
-    start_year, end_year = st.sidebar.slider('Select Year Range for Week of Year', 2019, 2021, (2019, 2021), key='year_range_slider')
-
-    # Filter berdasarkan tahun yang dipilih
-    train_plot = train_plot[(train_plot['year'] >= start_year) & (train_plot['year'] <= end_year)]
-
-    # Menyusun data untuk plotting
-    avg_week = train_plot.groupby(['year', 'week_no'])['emission'].mean().reset_index()
-
-    # Membuat line plot dengan warna berdasarkan tahun
-    fig, ax = plt.subplots(figsize=(18, 10))
-    palette = sns.color_palette('husl', n_colors=len(avg_week['year'].unique()))
-
-    for i, year in enumerate(sorted(avg_week['year'].unique())):
-        yearly_data = avg_week[avg_week['year'] == year]
-        sns.lineplot(data=yearly_data, x='week_no', y='emission', label=str(year), color=palette[i], marker='o', ax=ax)
-
-    # Menyesuaikan tampilan plot
-    ax.set_title('Average emissions per week of year')
-    ax.set_xlabel('Week of the year')
-    ax.set_ylabel('Average emissions')
-    ax.legend(title='Year', bbox_to_anchor=(1.05, 1), loc='upper left')
-    ax.grid(True)
-
-    plt.tight_layout()
-    st.markdown("<h3 style='text-align: center;'>Plot Emisi Per Minggu Dalam 3 Tahun</h3>", unsafe_allow_html=True)
-    st.pyplot(fig)
-
 
     # Plot emisi untuk lokasi tertentu sepanjang tahun
     st.sidebar.markdown("<h4 style='text-align: center;'>Emisi CO2 untuk Lokasi Tertentu Sepanjang Tahun</h4>", unsafe_allow_html=True)
@@ -259,7 +225,7 @@ with eda:
     sample_loc = train_processed[(train_eda['latitude'] == -0.51) & (train_eda['longitude'] == 29.29)]
 
     # Slider untuk memilih rentang tahun
-    start_year, end_year = st.sidebar.slider('Pilih Rentang Tahun untuk Lokasi', 2019, 2021, (2021, 2021))
+    start_year, end_year = st.sidebar.slider('Pilih Rentang Tahun untuk Lokasi', 2019, 2021, (2021, 2021), key='location_year_range_slider')
 
     # Filter berdasarkan tahun yang dipilih
     filtered_sample_loc = sample_loc[(sample_loc['year'] >= start_year) & (sample_loc['year'] <= end_year)]
@@ -277,7 +243,6 @@ with eda:
     plt.tight_layout()
     st.markdown("<h3 style='text-align: center;'>Emisi CO2 untuk Lokasi Tertentu Sepanjang Tahun</h3>", unsafe_allow_html=True)
     st.pyplot(fig)
-
   
 #Tab Prediksi
 with prediksi:
