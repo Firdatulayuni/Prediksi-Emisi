@@ -141,7 +141,7 @@ with eda:
     grouped = train_eda.groupby(['latitude', 'longitude'])['emission'].sum().reset_index()
     
     # Membuat peta dengan skala warna linier yang memetakan nilai emisi ke warna
-    colormap = LinearColormap(['green', 'red'], vmin=0, vmax=75000)  # emisi di atas 75.000 akan diberi warna hitam
+    colormap = cm.LinearColormap(['green', 'red'], vmin=0, vmax=75000)  # emisi di atas 75.000 akan diberi warna hitam
     
     # Membuat peta yang berpusat pada rata-rata 'latitude' dan 'longitude' dari titik-titik data
     m = folium.Map(location=[grouped['latitude'].mean(), grouped['longitude'].mean()])
