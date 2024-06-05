@@ -136,7 +136,6 @@ with eda:
     st.markdown("<h3 style='text-align: center;'>Presentase Missing Value</h3>", unsafe_allow_html=True)
     st.pyplot(fig)
 
-
     # DISTRIBUSI EMISI
     # Menampilkan judul
     st.markdown("<h3 style='text-align: center;'>Distribusi Emisi CO2</h3>", unsafe_allow_html=True)
@@ -145,16 +144,16 @@ with eda:
     fig, ax = plt.subplots(figsize=(15, 10))
 
     # Plot histogram
-    train_eda['emission'].plot(kind="hist", density=True, alpha=0.65, bins=50, colormap='tab20c', ax=ax)
+    train_eda['emission'].plot(kind="hist", density=True, alpha=0.65, bins=50, color='skyblue', edgecolor='black', ax=ax)
 
     # Plot KDE
-    train_eda['emission'].plot(kind="kde", colormap='RdYlBu', ax=ax)
+    train_eda['emission'].plot(kind="kde", color='darkblue', ax=ax)
 
     # Quantile lines
     quant_50, quant_95 = train['emission'].quantile(0.5), train['emission'].quantile(0.95)
     quants = [[quant_50, 1, 0.36], [quant_95, 0.6, 0.56]]
     for i in quants:
-        ax.axvline(i[0], alpha=i[1], ymax=i[2], linestyle=":")
+        ax.axvline(i[0], alpha=i[1], ymax=i[2], linestyle=":", color='red')
 
     # X
     ax.set_xlabel('Emission')
@@ -172,7 +171,25 @@ with eda:
 
     # Menampilkan plot di Streamlit
     st.pyplot(fig)
+    
 
+    #BOXPLOT DISTRIBUSI EMISI PER TAHUN
+    st.markdown("<h3 style='text-align: center;'>Boxplot Emisi CO2 per Tahun</h3>", unsafe_allow_html=True)
+    fig, ax = plt.subplots(figsize=(12, 8))
+    sns.boxplot(x="year", y="emission", data=train_eda, palette="Set3", ax=ax)
+    ax.set_title("Distribusi Emisi CO2 per Tahun")
+    ax.set_xlabel("Tahun")
+    ax.set_ylabel("Emisi CO2")
+    st.pyplot(fig)
+
+    #LATTITUDE VS EMISI
+    st.markdown("<h3 style='text-align: center;'>Scatter Plot Latitude vs Emisi CO2</h3>", unsafe_allow_html=True)
+    fig, ax = plt.subplots(figsize=(12, 8))
+    sns.scatterplot(x="latitude", y="emission", data=train_eda, palette="viridis", ax=ax)
+    ax.set_title("Latitude vs Emisi CO2")
+    ax.set_xlabel("Latitude")
+    ax.set_ylabel("Emisi CO2")
+    st.pyplot(fig)
 
 
     # plot train per week of year
