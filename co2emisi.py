@@ -98,7 +98,7 @@ with deskripsi:
     <br><b>2. Longitude</b><br>
         Longitude adalah garis lintang . Angka dari sudut bundar bumi horizontal. Titik diawali dari 0 ke 180 derajat, dan 0 ke-180 ke arah sebaliknya.
     <br><b>3. Year</b><br>
-        
+        Tahun dari 2019-2021
     <br><b>4. Syclic Feature (Week Sin dan Week Cos)</b><br>
         Sinus dan cosinus, untuk mencerminkan siklus, misalnya tanggal 1 Januari mendekati tanggal 31 Desember.
     <br><b>6. Holidays</b><br>
