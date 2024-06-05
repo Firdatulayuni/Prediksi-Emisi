@@ -137,50 +137,6 @@ with eda:
     st.pyplot(fig)
 
 
-    # MAPS
-    # Mengelompokkan data pelatihan berdasarkan 'latitude' dan 'longitude' serta menghitung jumlah 'emission' untuk setiap lokasi
-    grouped = train_eda.groupby(['latitude', 'longitude'])['emission'].sum().reset_index()
-
-    # Membuat peta dengan skala warna linier yang memetakan nilai emisi ke warna
-    colormap = cm.LinearColormap(['green', 'red'], vmin=0, vmax=75000)  # emisi di atas 75.000 akan diberi warna hitam
-
-    # Membuat peta yang berpusat pada rata-rata 'latitude' dan 'longitude' dari titik-titik data
-    m = folium.Map(location=[grouped['latitude'].mean(), grouped['longitude'].mean()])
-
-    # Menambahkan tanda lingkaran pada peta untuk setiap titik dalam dataframe 'grouped'
-    for _, row in grouped.iterrows():
-        rows_emission = row['emission']
-        color = 'blue' if rows_emission == 0 else colormap(rows_emission) if rows_emission < 10**5 else 'black'
-        folium.Circle(
-            location=[row['latitude'], row['longitude']],
-            radius=np.sqrt(row['emission'])*15,
-            color=color,
-            fill=True,
-            fill_color=color
-        ).add_to(m)
-
-    # Menyesuaikan peta dengan batas tanda
-    m.fit_bounds(m.get_bounds())
-
-    # Menambahkan legenda
-    legend_html = '''
-    <div style="position: fixed; 
-                bottom: 50px; left: 50px; width: 150px; height: 120px; 
-                background-color: white; z-index:9999; font-size:14px;
-                border:2px solid grey; border-radius:6px; padding: 10px;">
-        <b>Legenda Emisi</b><br>
-        <i class="fa fa-circle" style="color:blue"></i>&nbsp; Emisi Nol<br>
-        <i class="fa fa-circle" style="color:green"></i>&nbsp; Emisi Rendah<br>
-        <i class="fa fa-circle" style="color:red"></i>&nbsp; Emisi Sedang<br>
-        <i class="fa fa-circle" style="color:black"></i>&nbsp; Emisi Tinggi<br>
-    </div>
-    '''
-    m.get_root().html.add_child(folium.Element(legend_html))
-
-    # Menampilkan peta dengan Streamlit
-    st.markdown("<h3 style='text-align: center;'>Peta Emisi</h3>", unsafe_allow_html=True)
-    st_folium(m, width=700, height=500)
-
     # DISTRIBUSI EMISI
     # Menampilkan judul
     st.markdown("<h3 style='text-align: center;'>Distribusi Emisi CO2</h3>", unsafe_allow_html=True)
@@ -221,6 +177,7 @@ with eda:
 
     # plot train per week of year
     # Konversi kolom 'year' dan 'week_no' menjadi kolom 'date'
+    st.sidebar.markdown("<h4 style='text-align: center;'>Emisi Per Minggu Dalam 3 Tahun</h4>", unsafe_allow_html=True)
     train_plot = train.copy(deep=True)
     train_plot['date'] = pd.to_datetime(train_plot['year'].astype(str) + '-' + train_plot['week_no'].astype(str) + '-1', format='%Y-%W-%w')
 
